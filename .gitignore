@@ -1,0 +1,6 @@
+/.idea
+.env
+composer.lock
+/doc/
+run.bat
+/vendor/
