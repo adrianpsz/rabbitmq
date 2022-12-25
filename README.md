@@ -14,3 +14,8 @@ Just a simple rabbitmq project for learning and testing.
 - run docker: docker compose up -d --build
 - generate run.bat file: php generate_bat_file.php
 - run: run.bat
+
+---
+Visit my website
+
+[adrianp.pl](https://adrianp.pl/)
