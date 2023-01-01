@@ -20,23 +20,26 @@ $env = Env::load();
 
 /** @var IPublisherService $publisherService */
 $publisherService = new $argv[2];
-$consumerLog = new Log($argv[1]);
+$log = new Log($argv[1]);
 
 try {
     //
     // prepare connection and publisher
     //
     $connection = BasicAMQP::fromEnv($env);
-    $publisher = BasicPublisher::to($connection, $publisherService->getExchange());
-    $consumerLog->output('start...');
+    $publisher = BasicPublisher::to(
+        $connection,
+        $publisherService->getExchange()
+    );
+    $log->output('start...');
 
     //
     // main publisher loop
     //
     /** @var PublisherData $data */
     foreach ($publisherService->getData() as $data) {
-        $consumerLog->output(
-            'send: ' . $data->getData(),
+        $log->output(
+            'data: ' . $data->getData(),
             $publisher->getExchange()->getExchange(),
             $data->getRouterKey()
         );

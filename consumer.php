@@ -19,21 +19,24 @@ if ($argc != 3 || !class_exists($argv[2])) {
 $env = Env::load();
 /** @var IConsumerService $consumerService */
 $consumerService = new $argv[2];
-$consumerLog = new Log($argv[1]);
+$log = new Log($argv[1]);
 
 try {
     //
     // prepare connection and consumer
     //
     $connection = BasicAMQP::fromEnv($env);
-    $consumer = BasicConsumer::from($connection, $consumerService->getExchange());
-    $consumerLog->output('ready...');
+    $consumer = BasicConsumer::from(
+        $connection,
+        $consumerService->getExchange()
+    );
+    $log->output('ready...');
 
     //
     // consume
     //
-    $consumer->consume(function (AMQPMessage $msg) use ($consumerService, $consumerLog) {
-        $consumerService->consume($msg, $consumerLog);
+    $consumer->consume(function (AMQPMessage $msg) use ($consumerService, $log) {
+        $consumerService->consume($msg, $log);
     });
 
 } catch (Exception $e) {
